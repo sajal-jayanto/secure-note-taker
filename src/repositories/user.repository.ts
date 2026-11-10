@@ -19,6 +19,11 @@ export interface InterestGroup {
   users: { _id: Types.ObjectId; name: string }[];
 }
 
+export interface UserSummary {
+  id: string;
+  name: string;
+}
+
 const USERS_PER_INTEREST = 50;
 
 export class UserRepository {
@@ -41,6 +46,19 @@ export class UserRepository {
       return { items, total };
     } catch (err) {
       throw new HttpError("Failed to list users", StatusCodes.INTERNAL_SERVER_ERROR, {
+        cause: err,
+      });
+    }
+  }
+
+  async findAllNames(): Promise<UserSummary[]> {
+    try {
+      const users = await User.find({}, { name: 1 })
+        .sort({ name: 1 })
+        .lean<{ _id: Types.ObjectId; name: string }[]>();
+      return users.map(({ _id, name }) => ({ id: _id.toString(), name }));
+    } catch (err) {
+      throw new HttpError("Failed to list user names", StatusCodes.INTERNAL_SERVER_ERROR, {
         cause: err,
       });
     }

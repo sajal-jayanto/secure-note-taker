@@ -52,6 +52,7 @@ apiRouter.group("/auth", (router) => {
 });
 
 apiRouter.group("/users", [authenticate], (router) => {
+  router.get("/", asyncHandler(userController.listNames));
   router.get("/me", asyncHandler(userController.getMe));
   router.get("/interests", asyncHandler(userController.groupByinterests));
   router.get(

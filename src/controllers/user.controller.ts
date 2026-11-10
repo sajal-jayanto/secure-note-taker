@@ -30,6 +30,11 @@ export class UserController {
     res.status(StatusCodes.OK).json({ interests });
   };
 
+  listNames = async (_req: Request, res: Response) => {
+    const users = await this.userService.listUserNames();
+    res.status(StatusCodes.OK).json({ users });
+  };
+
   list = async (req: Request, res: Response) => {
     const { items, pagination } = await this.userService.listUsers(getPagination(req));
     res.status(StatusCodes.OK).json({ users: items, pagination });

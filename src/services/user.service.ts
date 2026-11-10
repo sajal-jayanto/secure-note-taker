@@ -7,6 +7,7 @@ import type {
   InterestGroup,
   UpdateUserData,
   UserRepository,
+  UserSummary,
 } from "../repositories/user.repository.js";
 import { buildPagination, type Paginated } from "../utils/pagination.js";
 import type { PaginationQuery } from "../validators/pagination.validator.js";
@@ -42,6 +43,10 @@ export class UserService {
       .map((interest) => byInterest.get(interest) ?? { interest, count: 0, users: [] });
 
     return interest;
+  }
+
+  async listUserNames(): Promise<UserSummary[]> {
+    return this.userRepository.findAllNames();
   }
 
   async listUsers(pagination: PaginationQuery): Promise<Paginated<PublicUser>> {

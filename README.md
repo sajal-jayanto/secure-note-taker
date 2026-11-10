@@ -152,9 +152,16 @@ Register body:
 
 | Method | Path                    | Auth | Description                                        |
 | ------ | ----------------------- | ---- | -------------------------------------------------- |
+| GET    | `/api/users`            | user | All users' `id` and `name`, sorted by name         |
 | GET    | `/api/users/me`         | user | Your profile                                       |
 | GET    | `/api/users/interests`  | user | Other users grouped by the interests you share     |
 | GET    | `/api/users/:id/posts`  | user | A user's posts (paginated)                         |
+
+`GET /api/users` is not paginated and returns only public fields:
+
+```json
+{ "users": [{ "id": "665f1c...", "name": "Alice" }, { "id": "665f1d...", "name": "Bob" }] }
+```
 
 ### Notes
 
