@@ -16,14 +16,14 @@ A REST API for private notes and public posts, built with **Express 5**, **TypeS
 
 ## Tech stack
 
-| Area       | Tools                                  |
-| ---------- | -------------------------------------- |
-| Runtime    | Node.js, Express 5, TypeScript (ESM)   |
-| Database   | MongoDB 7, Mongoose                    |
-| Auth       | jsonwebtoken, bcryptjs                 |
-| Validation | Zod                                    |
-| Logging    | Pino, pino-http, pino-pretty           |
-| Tooling    | tsx, ESLint, Prettier, Docker Compose  |
+| Area       | Tools                                 |
+| ---------- | ------------------------------------- |
+| Runtime    | Node.js, Express 5, TypeScript (ESM)  |
+| Database   | MongoDB 7, Mongoose                   |
+| Auth       | jsonwebtoken, bcryptjs                |
+| Validation | Zod                                   |
+| Logging    | Pino, pino-http, pino-pretty          |
+| Tooling    | tsx, ESLint, Prettier, Docker Compose |
 
 ## Getting started
 
@@ -102,14 +102,14 @@ curl http://localhost:3000/health
 
 ## Scripts
 
-| Script                 | Description                         |
-| ---------------------- | ----------------------------------- |
-| `npm run dev`          | Start in watch mode                 |
-| `npm run build`        | Compile TypeScript to `dist/`       |
-| `npm start`            | Run the compiled server             |
-| `npm run typecheck`    | Type-check without emitting         |
-| `npm run seed [count]` | Seed the database with sample data  |
-| `npm run lint`         | Lint with ESLint (`lint:fix` fixes) |
+| Script                 | Description                                       |
+| ---------------------- | ------------------------------------------------- |
+| `npm run dev`          | Start in watch mode                               |
+| `npm run build`        | Compile TypeScript to `dist/`                     |
+| `npm start`            | Run the compiled server                           |
+| `npm run typecheck`    | Type-check without emitting                       |
+| `npm run seed [count]` | Seed the database with sample data                |
+| `npm run lint`         | Lint with ESLint (`lint:fix` fixes)               |
 | `npm run format`       | Format with Prettier (`format:check` checks only) |
 
 ## API
@@ -128,8 +128,8 @@ List endpoints accept `?page=` (default `1`) and `?limit=` (default `10`, max `1
 
 ### Auth
 
-| Method | Path                 | Auth | Description                |
-| ------ | -------------------- | ---- | -------------------------- |
+| Method | Path                 | Auth | Description                                  |
+| ------ | -------------------- | ---- | -------------------------------------------- |
 | POST   | `/api/auth/register` | —    | Create an account, returns `{ user, token }` |
 | POST   | `/api/auth/login`    | —    | Log in, returns `{ user, token }`            |
 
@@ -150,30 +150,35 @@ Register body:
 
 ### Users
 
-| Method | Path                    | Auth | Description                                        |
-| ------ | ----------------------- | ---- | -------------------------------------------------- |
-| GET    | `/api/users`            | user | All users' `id` and `name`, sorted by name         |
-| GET    | `/api/users/me`         | user | Your profile                                       |
-| GET    | `/api/users/interests`  | user | Other users grouped by the interests you share     |
-| GET    | `/api/users/:id/posts`  | user | A user's posts (paginated)                         |
+| Method | Path                   | Auth | Description                                    |
+| ------ | ---------------------- | ---- | ---------------------------------------------- |
+| GET    | `/api/users`           | user | All users' `id` and `name`, sorted by name     |
+| GET    | `/api/users/me`        | user | Your profile                                   |
+| GET    | `/api/users/interests` | user | Other users grouped by the interests you share |
+| GET    | `/api/users/:id/posts` | user | A user's posts (paginated)                     |
 
 `GET /api/users` is not paginated and returns only public fields:
 
 ```json
-{ "users": [{ "id": "665f1c...", "name": "Alice" }, { "id": "665f1d...", "name": "Bob" }] }
+{
+  "users": [
+    { "id": "665f1c...", "name": "Alice" },
+    { "id": "665f1d...", "name": "Bob" }
+  ]
+}
 ```
 
 ### Notes
 
 All note routes only see the caller's own notes.
 
-| Method | Path             | Auth | Description              |
-| ------ | ---------------- | ---- | ------------------------ |
+| Method | Path             | Auth | Description                 |
+| ------ | ---------------- | ---- | --------------------------- |
 | GET    | `/api/notes`     | user | List your notes (paginated) |
-| GET    | `/api/notes/:id` | user | Get one note             |
-| POST   | `/api/notes`     | user | Create a note            |
+| GET    | `/api/notes/:id` | user | Get one note                |
+| POST   | `/api/notes`     | user | Create a note               |
 | PATCH  | `/api/notes/:id` | user | Update title and/or content |
-| DELETE | `/api/notes/:id` | user | Delete a note (`204`)    |
+| DELETE | `/api/notes/:id` | user | Delete a note (`204`)       |
 
 Note body: `title` (1–200 characters) and `content` (1–50,000 characters). `PATCH` needs at least one of them.
 
@@ -187,14 +192,14 @@ Post body has the same rules as a note.
 
 ### Admin
 
-| Method | Path                       | Auth  | Description                         |
-| ------ | -------------------------- | ----- | ----------------------------------- |
-| GET    | `/api/admin/users`         | admin | List all users (paginated)          |
-| POST   | `/api/admin/user`          | admin | Create a user (optional `role`)     |
-| PATCH  | `/api/admin/user/:id`      | admin | Update a user's fields or role      |
-| DELETE | `/api/admin/user/:id`      | admin | Delete a user (`204`)               |
-| GET    | `/api/admin/notes`         | admin | List all notes (paginated)          |
-| GET    | `/api/admin/user/:id/notes`| admin | List one user's notes (paginated)   |
+| Method | Path                        | Auth  | Description                       |
+| ------ | --------------------------- | ----- | --------------------------------- |
+| GET    | `/api/admin/users`          | admin | List all users (paginated)        |
+| POST   | `/api/admin/user`           | admin | Create a user (optional `role`)   |
+| PATCH  | `/api/admin/user/:id`       | admin | Update a user's fields or role    |
+| DELETE | `/api/admin/user/:id`       | admin | Delete a user (`204`)             |
+| GET    | `/api/admin/notes`          | admin | List all notes (paginated)        |
+| GET    | `/api/admin/user/:id/notes` | admin | List one user's notes (paginated) |
 
 Admins cannot change their own role or delete their own account.
 

@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "node --import tsx --import ./src/test/setup.ts --test \"src/**/*.test.ts\""
   },
   "keywords": [],
   "type": "module",
